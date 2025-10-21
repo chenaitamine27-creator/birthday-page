@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Love for Houda</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050008;
+  --pink: #ff66a3;
+  --rose: #ff8cb3;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  font-family: "Poppins", sans-serif;
+  overflow: hidden;
+  color: #fff;
+}
+
+/* Pages */
+.page {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: opacity .6s, transform .6s;
+}
+.visible { opacity:1; pointer-events:auto; transform:scale(1);}
+.hidden { opacity:0; pointer-events:none; transform:scale(.95);}
+
+/* Title */
+.title {
+  font-family: "Dancing Script", cursive;
+  font-size: 2rem;
+  color: var(--rose);
+  margin-bottom: 1.5rem;
+}
+
+/* --- Envelope as emoji --- */
+.envelope {
+  font-size: 6rem; /* Large emoji */
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.envelope button {
+  margin-top: 1rem;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border:none;
+  border-radius:8px;
+  background-color: var(--pink);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.envelope button:hover {
+  background-color: var(--rose);
+}
+
+/* Page 2 */
+#page2 {
+  background: radial-gradient(circle at top, #150010 0%, #000 100%);
+}
+#heartsBg {
+  position: absolute; inset:0; overflow:hidden; z-index:1;
+}
+.floating-heart {
+  position: absolute;
+  user-select:none;
+  animation: float linear infinite;
+  opacity:.8;
+}
+@keyframes float {
+  0% { transform: translateY(100vh); opacity:0; }
+  10%{ opacity:1; }
+  100%{ transform: translateY(-10vh); opacity:0; }
+}
+
+.message {
+  position: relative; z-index:2;
+  background: rgba(255,255,255,.05);
+  padding: 20px;
+  border-radius: 14px;
+  max-width: 700px;
+  backdrop-filter: blur(5px);
+}
+.big {
+  font-family: "Dancing Script", cursive;
+  font-size: 1.5rem;
+  color: #ffe6f2;
+}
+.langs {
+  margin-top: 12px;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+}
+.langs span {
+  background: rgba(255,255,255,.08);
+  padding: 8px 14px;
+  border-radius: 12px;
+  color: #fff;
+}
+.credit { margin-top: 10px; font-size: .8rem; opacity:.7; color:#ffcfe0; }
+
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<section id="page1" class="page visible">
+  <h1 class="title">💗 Happy Birthday Houda 💗</h1>
+
+  <div class="envelope" id="envelope">
+    📩
+    <button id="openBtn">Click to view the message</button>
+  </div>
+</section>
+
+<!-- PAGE 2 -->
+<section id="page2" class="page hidden">
+  <div id="heartsBg"></div>
+  <div class="message">
+    <p class="big">
+“I wish you a life full of happiness, peace, and endless love   
+especially with me. I'm sorry if I ever hurt you, my heart
+knows only how to love you and, and I’m sorry if I ever seem selfish,
+but I love you just for me, and I want every tomorrow to be with you.
+I love you so much my pretty girl ❤️”
+    </p>
+    <div class="langs">
+      <span>💖 Ti amo vita mia</span>
+      <span>💖 I love you bebe</span>
+      <span>💖 Je t’aime ma vie</span>
+      <span>💖 Te amo mi esposa</span>
+      <span>💖 Seni seviyorum guzelim</span>
+      <span>💖 hamlaghkm</span>
+      <span>💖 احبك</span>
+    </div>
+    <p class="credit">Made with love for my future wife Houda 💖</p>
+  </div>
+</section>
+
+<audio id="happySong" src="happy.mp3" autoplay></audio>
+<audio id="itsYouSong" src="itsyou.mp3" preload="auto" loop></audio>
+
+<script>
+const openBtn = document.getElementById('openBtn');
+const page1 = document.getElementById('page1');
+const page2 = document.getElementById('page2');
+const heartsBg = document.getElementById('heartsBg');
+const happySong = document.getElementById('happySong');
+const itsYouSong = document.getElementById('itsYouSong');
+
+openBtn.addEventListener('click', () => {
+  page1.classList.replace('visible','hidden');
+  page2.classList.replace('hidden','visible');
+  happySong.pause();
+  itsYouSong.play().catch(()=>{});
+  spawnHearts(25);
+});
+
+// Floating hearts
+function spawnHearts(count) {
+  heartsBg.innerHTML = '';
+  const phrases = ['I love you','Ti amo','Je t’aime','Te amo','Seni seviyorum','hamlaghkm','احبك'];
+  for(let i=0;i<count;i++){
+    const h = document.createElement('div');
+    h.className='floating-heart';
+    h.textContent = Math.random()<0.6 ? `💖 ${phrases[Math.floor(Math.random()*phrases.length)]}` : '💖';
+    h.style.left = Math.random()*100+'%';
+    h.style.fontSize = 14 + Math.random()*30 +'px';
+    h.style.animationDuration = 8 + Math.random()*10 +'s';
+    h.style.animationDelay = Math.random()*-8+'s';
+    heartsBg.appendChild(h);
+  }
+}
+
+// Auto play happySong on page load
+window.addEventListener('load', ()=>{
+  happySong.play().catch(()=>{});
+});
+</script>
+
+</body>
+</html>
